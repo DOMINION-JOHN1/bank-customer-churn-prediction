@@ -11,6 +11,7 @@ import pickle
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
 import numpy as np
+from PIL import Image
 
 # Load the Random Forest Classifier model
 with open('rfc_model.pkl', 'rb') as model_file:
