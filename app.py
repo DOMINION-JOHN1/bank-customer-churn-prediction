@@ -23,6 +23,7 @@ yes_no_mapping = {'No': 0, 'Yes': 1}
 
 # Streamlit app header
 st.title('Customer Churn Prediction')
+image=Image.open("
 
 # Sidebar with user input
 st.sidebar.header('User Input')
