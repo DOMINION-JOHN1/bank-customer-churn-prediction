@@ -27,16 +27,16 @@ st.title('Customer Churn Prediction')
 st.sidebar.header('User Input')
 
 # Create input fields for the new features
-credit_score = st.sidebar.slider('CreditScore', min_value=300, max_value=850, value=500)
-geography = st.sidebar.selectbox('Geography', options=['Spain', 'France', 'Germany'])
+credit_score = st.sidebar.slider('Credit Score', min_value=300, max_value=850, value=500)
+geography = st.sidebar.selectbox('Country', options=['Spain', 'France', 'Germany'])
 gender = st.sidebar.selectbox('Gender', options=['Female', 'Male'])
 age = st.sidebar.slider('Age', min_value=18, max_value=100, value=35)
 tenure = st.sidebar.slider('Tenure', min_value=0, max_value=10, value=5)
-balance = st.sidebar.slider('Balance', min_value=0, max_value=250000, value=50000)
-num_of_products = st.sidebar.slider('NumOfProducts', min_value=1, max_value=4, value=2)
-has_cr_card = st.sidebar.selectbox('HasCrCard', options=['No', 'Yes'])
-is_active_member = st.sidebar.selectbox('IsActiveMember', options=['No', 'Yes'])
-estimated_salary = st.sidebar.slider('EstimatedSalary', min_value=0, max_value=200000, value=50000)
+balance = st.sidebar.slider('Account balance', min_value=0, max_value=250000, value=50000)
+num_of_products = st.sidebar.slider('Num Of Products', min_value=1, max_value=4, value=2)
+has_cr_card = st.sidebar.selectbox('Uses Credit card', options=['No', 'Yes'])
+is_active_member = st.sidebar.selectbox('Active member?', options=['No', 'Yes'])
+estimated_salary = st.sidebar.slider('Annual Salary', min_value=0, max_value=200000, value=50000)
 
 # Convert user-friendly text options to labels
 geography = geography_mapping[geography]
