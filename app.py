@@ -48,10 +48,10 @@ if st.sidebar.button('Predict'):
     user_input_scaled = scaler.fit_transform([user_input])
 
     # Make predictions using the Random Forest Classifier model
-    prediction = rfc_model.predict(user_input_scaled)
+    prediction = rfc_model.predict(user_input_scaled.reshape(1,-1))
 
     # Display the prediction result
-    if prediction[0] >= 0:   # Assuming 1 represents churn
+    if prediction[0] == 1 :   # Assuming 1 represents churn
         st.sidebar.success('This customer is at a higher risk of leaving or discontinuing their services.')
     else:
         st.sidebar.error('This customer is likely to continue using their services.')
