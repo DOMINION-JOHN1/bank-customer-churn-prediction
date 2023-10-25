@@ -23,7 +23,9 @@ yes_no_mapping = {'No': 0, 'Yes': 1}
 
 # Streamlit app header
 st.title('Customer Churn Prediction')
-image=Image.open("
+image=Image.open("https://raw.githubusercontent.com/DOMINION-JOHN1/bank-customer-churn-prediction/main/bank.jpg")
+st.image(image,use_column_width="always")
+
 
 # Sidebar with user input
 st.sidebar.header('User Input')
