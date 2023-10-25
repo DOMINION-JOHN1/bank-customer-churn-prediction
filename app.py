@@ -54,7 +54,7 @@ if st.sidebar.button('Predict'):
     # Preprocess the user input (standardization)
     user_input = [credit_score, geography, gender, age, tenure, balance, num_of_products, has_cr_card, is_active_member, estimated_salary]
     scaler = StandardScaler()
-    user_input_scaled = scaler.fit_transform(user_input.reshape(1, -1))
+    user_input_scaled = scaler.fit_transform(user_input)
 
     # Make predictions using the Random Forest Classifier model
     prediction = rfc_model.predict(user_input_scaled)
