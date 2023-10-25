@@ -56,9 +56,9 @@ if st.sidebar.button('Predict'):
 
     # Display the prediction result
     if prediction[0] == 1:   # Assuming 1 represents churn
-        st.sidebar.success('Prediction: Churn (C)')
+        st.sidebar.success('This customer is at a higher risk of leaving or discontinuing their services.')
     else:
-        st.sidebar.error('Prediction: Non-Churn (NC)')
+        st.sidebar.error('This customer is likely to continue using their services.')
 
 
 
