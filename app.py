@@ -55,7 +55,7 @@ if st.sidebar.button('Predict'):
     prediction = rfc_model.predict(user_input_scaled)
 
     # Display the prediction result
-    if prediction[0] == 1:   # Assuming 1 represents churn
+    if prediction[0] > 0.65:   # Assuming 1 represents churn
         st.sidebar.success('This customer is at a higher risk of leaving or discontinuing their services.')
     else:
         st.sidebar.error('This customer is likely to continue using their services.')
