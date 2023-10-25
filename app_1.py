@@ -1,11 +1,16 @@
+
 import pickle
 import streamlit as st
-import numpy as np
 from sklearn.preprocessing import StandardScaler
 
-# Load the SVM model
-with open('svc_model.pkl', 'rb') as model_file:
-    svc_model = pickle.load(model_file)
+# Load the Random Forest Classifier model
+with open('rfc_model.pkl', 'rb') as model_file:
+    rfc_model = pickle.load(model_file)
+
+# Define dictionaries to map user-friendly text options to labels
+geography_mapping = {'Spain': 0, 'France': 1, 'Germany': 2}
+gender_mapping = {'Female': 0, 'Male': 1}
+yes_no_mapping = {'No': 0, 'Yes': 1}
 
 # Streamlit app header
 st.title('Customer Churn Prediction')
@@ -14,54 +19,38 @@ st.title('Customer Churn Prediction')
 st.sidebar.header('User Input')
 
 # Create input fields for the new features
-features = {
-    'BalanceSalaryRatio': st.sidebar.slider('BalanceSalaryRatio', min_value=0.0, max_value=10.0, value=5.0),
-    'CreditScoreAgeRatio': st.sidebar.slider('CreditScoreAgeRatio', min_value=0.0, max_value=10.0, value=5.0),
-    'TenureAgeRatio': st.sidebar.slider('TenureAgeRatio', min_value=0.0, max_value=10.0, value=5.0),
-    'CreditScoreGivenSalary': st.sidebar.slider('CreditScoreGivenSalary', min_value=0.0, max_value=10.0, value=5.0),
-    'NumOfProductsGivenAge': st.sidebar.slider('NumOfProductsGivenAge', min_value=0.0, max_value=10.0, value=5.0),
-    'BalanceGivenAge': st.sidebar.slider('BalanceGivenAge', min_value=0.0, max_value=10.0, value=5.0),
-    'BalanceGivenCreditScore': st.sidebar.slider('BalanceGivenCreditScore', min_value=0.0, max_value=10.0, value=5.0),
-    'TenureGivenAge': st.sidebar.slider('TenureGivenAge', min_value=0.0, max_value=10.0, value=5.0)
-}
+credit_score = st.sidebar.slider('CreditScore', min_value=300, max_value=850, value=500)
+geography = st.sidebar.selectbox('Geography', options=['Spain', 'France', 'Germany'])
+gender = st.sidebar.selectbox('Gender', options=['Female', 'Male'])
+age = st.sidebar.slider('Age', min_value=18, max_value=100, value=35)
+tenure = st.sidebar.slider('Tenure', min_value=0, max_value=10, value=5)
+balance = st.sidebar.slider('Balance', min_value=0, max_value=250000, value=50000)
+num_of_products = st.sidebar.slider('NumOfProducts', min_value=1, max_value=4, value=2)
+has_cr_card = st.sidebar.selectbox('HasCrCard', options=['No', 'Yes'])
+is_active_member = st.sidebar.selectbox('IsActiveMember', options=['No', 'Yes'])
+estimated_salary = st.sidebar.slider('EstimatedSalary', min_value=0, max_value=200000, value=50000)
+
+# Convert user-friendly text options to labels
+geography = geography_mapping[geography]
+gender = gender_mapping[gender]
+has_cr_card = yes_no_mapping[has_cr_card]
+is_active_member = yes_no_mapping[is_active_member]
 
 # Create a button to make predictions
 if st.sidebar.button('Predict'):
-    # Convert the user input to a NumPy array
-    user_input = np.array(list(features.values())).reshape(1, -1)
-
     # Preprocess the user input (standardization)
+    user_input = [credit_score, geography, gender, age, tenure, balance, num_of_products, has_cr_card, is_active_member, estimated_salary]
     scaler = StandardScaler()
-    user_input_scaled = scaler.fit_transform(user_input)
+    user_input_scaled = scaler.fit_transform([user_input])
 
-    # Make predictions using the SVM model
-    prediction = svc_model.predict(user_input_scaled)
+    # Make predictions using the Random Forest Classifier model
+    prediction = rfc_model.predict(user_input_scaled)
 
     # Display the prediction result
     if prediction[0] == 1:   # Assuming 1 represents churn
         st.sidebar.success('Prediction: Churn (C)')
     else:
         st.sidebar.error('Prediction: Non-Churn (NC)')
-
-# Run the Streamlit app
-if __name__ == '__main__':
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-    st.run()
-
-    # Preprocess the user input (standardization)
-    user_input = np.array([features])
-    scaler = StandardScaler()
-    user_input_scaled = scaler.fit_transform(user_input)
-
-    # Make predictions using the SVM model
-    prediction = knn_model.predict(user_input_scaled)
-
-    # Display the prediction result
-    if prediction[0] == '1':   # Assuming '1' represents churn
-        st.sidebar.success('Prediction: Churn (C)')
-    else:
-        st.sidebar.error('Prediction: NON Churn (NC)')
-
 
 # Run the Streamlit app
 if __name__ == '__main__':
