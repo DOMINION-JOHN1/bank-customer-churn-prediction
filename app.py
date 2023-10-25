@@ -10,6 +10,7 @@ Original file is located at
 import pickle
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
+import numpy as np
 
 # Load the Random Forest Classifier model
 with open('rfc_model.pkl', 'rb') as model_file:
@@ -47,18 +48,15 @@ is_active_member = yes_no_mapping[is_active_member]
 # Create a button to make predictions
 if st.sidebar.button('Predict'):
     # Preprocess the user input (standardization)
-    user_input = [credit_score, geography, gender, age, tenure, balance, num_of_products, has_cr_card, is_active_member, estimated_salary]
+    user_input = np.array([credit_score, geography, gender, age, tenure, balance, num_of_products, has_cr_card, is_active_member, estimated_salary])
     scaler = StandardScaler()
-    user_input_scaled = scaler.fit_transform([user_input])
+    user_input_scaled = scaler.transform(user_input.reshape(1, -1))
 
     # Make predictions using the Random Forest Classifier model
     prediction = rfc_model.predict(user_input_scaled)
 
     # Display the prediction result
-    if prediction[0] == 0:   # Assuming 1 represents churn
+    if prediction[0] > 0.5:   # Assuming 1 represents churn
         st.sidebar.success('This customer is at a higher risk of leaving or discontinuing their services.')
     else:
         st.sidebar.error('This customer is likely to continue using their services.')
-
-
-
