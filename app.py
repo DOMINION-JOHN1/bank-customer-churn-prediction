@@ -1,4 +1,3 @@
-
 import pickle
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
@@ -45,13 +44,13 @@ if st.sidebar.button('Predict'):
     # Preprocess the user input (standardization)
     user_input = [credit_score, geography, gender, age, tenure, balance, num_of_products, has_cr_card, is_active_member, estimated_salary]
     scaler = StandardScaler()
-    user_input_scaled = scaler.fit_transform(user_input)
-    user_input_scaled =  user_input_scaled.reshape(-1,1)
+    user_input_scaled = scaler.fit_transform(np.array(user_input).reshape(1, -1))
+
     # Make predictions using the Random Forest Classifier model
-    prediction = rfc_model.predict([user_input_scaled])
+    prediction = rfc_model.predict(user_input_scaled)
 
     # Display the prediction result
-    if prediction[0] == 1 :   # Assuming 1 represents churn
+    if prediction[0] == 1:  # Assuming 1 represents churn
         st.sidebar.success('This customer is at a higher risk of leaving or discontinuing their services.')
     else:
         st.sidebar.error('This customer is likely to continue using their services.')
