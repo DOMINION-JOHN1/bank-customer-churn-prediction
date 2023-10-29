@@ -48,7 +48,7 @@ if st.sidebar.button('Predict'):
     user_input_scaled = scaler.fit_transform([user_input])
 
     # Make predictions using the Random Forest Classifier model
-    prediction = rfc_model.predict(user_input_scaled)
+    prediction = rfc_model.predict([user_input_scaled])
 
     # Display the prediction result
     if prediction[0] == 1 :   # Assuming 1 represents churn
