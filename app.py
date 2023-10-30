@@ -5,8 +5,8 @@ import numpy as np
 from PIL import Image
 
 # Load the Random Forest Classifier model
-with open('rfc_model.pkl', 'rb') as model_file:
-    rfc_model = pickle.load(model_file)
+with open('knn_model.pkl', 'rb') as model_file:
+    knn_model = pickle.load(model_file)
 
 # Define dictionaries to map user-friendly text options to labels
 geography_mapping = {'Spain': 0, 'France': 1, 'Germany': 2}
@@ -47,7 +47,7 @@ if st.sidebar.button('Predict'):
     user_input_scaled = scaler.fit_transform(np.array(user_input).reshape(1, -1))
 
     # Make predictions using the Random Forest Classifier model
-    prediction = rfc_model.predict(user_input_scaled)
+    prediction = knn_model.predict(user_input_scaled)
 
     # Display the prediction result
     if prediction[0] == 1:  # Assuming 1 represents churn
