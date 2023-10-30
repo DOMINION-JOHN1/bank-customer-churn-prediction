@@ -1,12 +1,11 @@
-import pickle
+from tensorflow.keras.models import load_model
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 from PIL import Image
 
 # Load the Random Forest Classifier model
-with open('knn_model.pkl', 'rb') as model_file:
-    knn_model = pickle.load(model_file)
+loaded_model = load_model('keras.h5')
 
 # Define dictionaries to map user-friendly text options to labels
 geography_mapping = {'Spain': 0, 'France': 1, 'Germany': 2}
@@ -47,10 +46,10 @@ if st.sidebar.button('Predict'):
     user_input_scaled = scaler.fit_transform(np.array(user_input).reshape(1, -1))
 
     # Make predictions using the Random Forest Classifier model
-    prediction = knn_model.predict(user_input_scaled)
+    prediction = loaded_model.predict(user_input_scaled)
 
     # Display the prediction result
-    if prediction[0] == 1:  # Assuming 1 represents churn
+    if prediction[0] >= 0.50:  # Assuming 1 represents churn
         st.sidebar.success('This customer is at a higher risk of leaving or discontinuing their services.')
     else:
         st.sidebar.error('This customer is likely to continue using their services.')
